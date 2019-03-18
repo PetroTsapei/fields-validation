@@ -13,7 +13,7 @@ export default class App extends Component {
           placeholder: '',
           value: '',
           type: 'text',
-          validateRule: 'test'
+          validateRule: 'required'
         }
       }
     }
@@ -36,6 +36,7 @@ export default class App extends Component {
       firstName
     } = this.state.fields
 
+    // you can also add custom rules using validate.js
     const customRules = {
       test: {
         presence: {
@@ -49,21 +50,19 @@ export default class App extends Component {
     }
 
     return (
-      <div>
-        <Input
-          label={firstName.label}
-          type={firstName.type}
-          placeholder={firstName.placeholder}
-          fieldKey='firstName'
-          validateRule={firstName.validateRule}
-          validateObj={{ [firstName.validateRule]: firstName.value }}
-          value={firstName.value}
-          setValue={this.updateInput}
-          required='*'
-          error={firstName.error}
-          customRules={customRules}
-        />
-      </div>
+      <Input
+        label={firstName.label}
+        type={firstName.type}
+        placeholder={firstName.placeholder}
+        fieldKey='firstName'
+        validateRule={firstName.validateRule}
+        validateObj={{ [firstName.validateRule]: firstName.value }}
+        value={firstName.value}
+        setValue={this.updateInput}
+        required='*'
+        error={firstName.error}
+        customRules={customRules}
+      />
     )
   }
 }
