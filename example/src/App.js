@@ -7,38 +7,18 @@ export default class App extends Component {
     super(props)
 
     this.state = {
-      fields: {
-        firstName: {
-          label: 'Enter first name',
-          placeholder: '',
-          value: '',
-          type: 'text',
-          validateRule: 'required'
-        }
-      }
+      value: ''
     }
   }
 
-  updateInput = (fieldKey, value, error) => {
-    this.setState({
-      fields: {
-        [fieldKey]: {
-          ...this.state.fields[fieldKey],
-          value,
-          error
-        }
-      }
-    })
+  updateInput = (value, error) => {
+    this.setState({ value, error })
   }
 
   render () {
-    const {
-      firstName
-    } = this.state.fields
-
     // you can also add custom rules using validate.js
     const customRules = {
-      test: {
+      name_for_your_rules: {
         presence: {
           allowEmpty: false,
           message: '^Please enter a valid value'
@@ -51,16 +31,15 @@ export default class App extends Component {
 
     return (
       <Input
-        label={firstName.label}
-        type={firstName.type}
-        placeholder={firstName.placeholder}
-        fieldKey='firstName'
-        validateRule={firstName.validateRule}
-        validateObj={{ [firstName.validateRule]: firstName.value }}
-        value={firstName.value}
+        label='test'
+        type='text'
+        placeholder='enter text'
+        validateRule='required'
+        value={this.state.value}
         setValue={this.updateInput}
         required='*'
-        error={firstName.error}
+        error={this.state.error}
+        errorClass='field-container__error'
         customRules={customRules}
       />
     )

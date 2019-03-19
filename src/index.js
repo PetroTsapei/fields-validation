@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import style from './styles.css';
 
 import validate from './validate'
 
@@ -7,12 +8,11 @@ export default class Input extends PureComponent {
   static propTypes = {
     label: PropTypes.string,
     error: PropTypes.string,
-    validateObj: PropTypes.object,
     setValue: PropTypes.func.isRequired,
     validateRule: PropTypes.string,
-    fieldKey: PropTypes.string,
     required: PropTypes.string,
-    customRules: PropTypes.object
+    customRules: PropTypes.object,
+    errorClass: PropTypes.string
   }
 
   getError(obj = {}) {
@@ -24,30 +24,23 @@ export default class Input extends PureComponent {
   updateProps(value) {
     const {
       setValue,
-      validateObj = {},
-      validateRule,
-      fieldKey = null
+      validateRule
     } = this.props
-    validateObj[validateRule] = value
+    let validateObj = {[validateRule]: value}
     const error = this.getError(validateObj)
 
-    setValue(fieldKey, value, error)
-  }
-
-  onChange = (e) => {
-    this.updateProps(e.target.value)
+    setValue(value, error)
   }
 
   render() {
     const {
       label,
       error,
-      validateObj,
       validateRule,
       setValue,
-      fieldKey,
       required,
       customRules,
+      errorClass,
       ...props
     } = this.props
 
@@ -63,11 +56,11 @@ export default class Input extends PureComponent {
         }
         <input
           {...props}
-          onChange={this.onChange}
+          onChange={e => this.updateProps(e.target.value)}
         />
         {
           error
-            ? <span className='field-container__error'>
+            ? <span className={`${errorClass || null}`}>
               {error}
             </span>
             : null
